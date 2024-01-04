@@ -1,20 +1,23 @@
 ﻿@page "/"
 @using BlazorBasics.Models;
 @using BlazorBasics.client;
+@inject NavigationManager NavigationManager;
  
 <PageTitle>Index</PageTitle>
 <h3>Best Movies</h3>
 @if(movies is null)
 {
-    <P>Loading....</P>
+    <p>Loading....</p>
 }else
 {
+    <div class="mb-5"><button @onclick=goToMovies class="btn btn-primary">Add Movies</button></div>
         <table class="table table-striped table-bordered table-hover">
         <thead class="table-dark" >
             <th>id</th>
             <th>genre</th>
             <th>title</th>
-            <th>Rating</th>
+             <th>Rating</th>
+              <th>Action</th>
         </thead>
         <tbody>
             @foreach (var movie in movies)
@@ -24,6 +27,7 @@
                             <td>@movie.genre</td>
                             <td>@movie.title</td>
                             <td>@movie.Rating</td>
+                            <td><button class="btn btn-danger" @onclick="()=>deleteMovie(movie.id)">delete</button></td>
                     </tr>
             }
         </tbody>
@@ -42,6 +46,19 @@
     protected override void OnInitialized()
     {
         movies =MovieClient.getMovies();
+    }
+
+
+    public void goToMovies()
+    {
+        NavigationManager.NavigateTo("/edit-movies");
+
+    }
+
+    public void deleteMovie(int movieId)
+    {
+        MovieClient.DeleteMovie(movieId);
+        movies = MovieClient.getMovies();
     }
 
 

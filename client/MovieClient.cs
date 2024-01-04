@@ -43,5 +43,12 @@ namespace BlazorBasics.client
 
         }
 
+        public static void DeleteMovie(int id)
+        {
+            MoviesModel moviesModel= movies.FirstOrDefault(e=>e.id==id);
+            movies.Remove(moviesModel);
+            
+        }
+
     }
 }
