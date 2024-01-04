@@ -1,0 +1,46 @@
+﻿@page "/edit-movies"
+@using BlazorBasics.Models;
+@using BlazorBasics.client;
+@inject NavigationManager NavigationManager;
+<PageTitle>Movies</PageTitle>
+<h3>EditMovies</h3>
+
+<div class="row">
+    <div class="col-sm-4">
+        <EditForm Model="@movies" OnSubmit="HandleSubmit">
+            <div class="mb-3">
+            <InputText id="title" @bind-Value="movies.title" class="form-control" placeholder="Enter title"></InputText>
+            </div>
+           <div class="mb-3">
+
+            <InputText id="genre" @bind-Value="movies.genre" class="form-control" placeholder="Enter genre"></InputText>
+
+
+           </div>
+            
+            <div class="mb-3">
+                <InputNumber id="rating" @bind-Value="movies.Rating" class="form-control" placeholder="Enter rating"></InputNumber>
+           </div>
+           <button type="submit" class="btn btn-success">Save</button>
+
+
+        </EditForm>
+    </div>
+</div>
+@code {
+    private MoviesModel movies = new()
+        {
+            genre = String.Empty,
+            title = String.Empty,
+            Rating = 0,
+        };
+
+
+    private void HandleSubmit()
+    {
+        MovieClient.AddMovies(movies);
+        NavigationManager.NavigateTo("/");
+
+    }
+
+}

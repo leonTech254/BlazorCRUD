@@ -1,54 +1,48 @@
 ﻿@page "/"
 @using BlazorBasics.Models;
+@using BlazorBasics.client;
  
 <PageTitle>Index</PageTitle>
 <h3>Best Movies</h3>
-<table class="table">
-    <thead >
-        <th>id</th>
-        <th>genre</th>
-        <th>title</th>
-        <th>Rating</th>
-    </thead>
-    <tbody>
-        @foreach(var movie in movies)
-        {
-            <tr>
-                    <td>@movie.id</td>
-                    <td>@movie.genre</td>
-                    <td>@movie.title</td>
-                    <td>@movie.Rating</td>
-            </tr>
-        }
-    </tbody>
+@if(movies is null)
+{
+    <P>Loading....</P>
+}else
+{
+        <table class="table table-striped table-bordered table-hover">
+        <thead class="table-dark" >
+            <th>id</th>
+            <th>genre</th>
+            <th>title</th>
+            <th>Rating</th>
+        </thead>
+        <tbody>
+            @foreach (var movie in movies)
+            {
+                    <tr>
+                            <td>@movie.id</td>
+                            <td>@movie.genre</td>
+                            <td>@movie.title</td>
+                            <td>@movie.Rating</td>
+                    </tr>
+            }
+        </tbody>
 
-</table>
+    </table>
+
+}
+
+
+
+
+
 
 @code {
-    private MoviesModel[] movies = new[]
-            {
-        new  MoviesModel
-        {
-            id=1,
-            genre="Action",
-            title="Small Ville",
-            Rating=5
-        },
-         new  MoviesModel
-        {
-            id=2,
-            genre="Action",
-            title="Blindspot",
-            Rating=8
-        },
-         new  MoviesModel
-        {
-            id=3,
-            genre="Action",
-            title="Legend of the seeker",
-            Rating=3
-        }
+    private MoviesModel[]? movies;
+    protected override void OnInitialized()
+    {
+        movies =MovieClient.getMovies();
+    }
 
-    };
 
 }
