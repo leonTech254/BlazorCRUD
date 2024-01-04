@@ -1,0 +1,54 @@
+﻿@page "/"
+@using BlazorBasics.Models;
+ 
+<PageTitle>Index</PageTitle>
+<h3>Best Movies</h3>
+<table class="table">
+    <thead >
+        <th>id</th>
+        <th>genre</th>
+        <th>title</th>
+        <th>Rating</th>
+    </thead>
+    <tbody>
+        @foreach(var movie in movies)
+        {
+            <tr>
+                    <td>@movie.id</td>
+                    <td>@movie.genre</td>
+                    <td>@movie.title</td>
+                    <td>@movie.Rating</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+@code {
+    private MoviesModel[] movies = new[]
+            {
+        new  MoviesModel
+        {
+            id=1,
+            genre="Action",
+            title="Small Ville",
+            Rating=5
+        },
+         new  MoviesModel
+        {
+            id=2,
+            genre="Action",
+            title="Blindspot",
+            Rating=8
+        },
+         new  MoviesModel
+        {
+            id=3,
+            genre="Action",
+            title="Legend of the seeker",
+            Rating=3
+        }
+
+    };
+
+}
