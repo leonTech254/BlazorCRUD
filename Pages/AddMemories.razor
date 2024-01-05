@@ -1,0 +1,51 @@
+﻿@page "/edit-memories"
+@using BlazorBasics.Models
+@using BlazorBasics.client
+@inject NavigationManager NavigationManager
+<PageTitle>Memories</PageTitle>
+<h3>Edit Memories</h3>
+
+<div class="row">
+    <div class="col-sm-4">
+        <EditForm Model="@memory" OnValidSubmit="HandleSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="mb-3">
+                <InputText id="name" @bind-Value="memory.Name" class="form-control" placeholder="Enter name"></InputText>
+            </div>
+            <div class="mb-3">
+                <InputText id="description" @bind-Value="memory.Description" class="form-control" placeholder="Enter description"></InputText>
+            </div>
+            <div class="mb-3">
+                <InputText id="date" @bind-Value="memory.Date" class="form-control" placeholder="Enter date"></InputText>
+            </div>
+            <div class="mb-3">
+                <InputText id="location" @bind-Value="memory.Location" class="form-control" placeholder="Enter location"></InputText>
+            </div>
+            <button type="submit" class="btn btn-success">Save</button>
+            <button type="button" class="btn btn-danger" @onclick="GoBack">Cancel</button>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private MemoriesModel memory = new()
+        {
+            Name = string.Empty,
+            Description = string.Empty,
+            Date = string.Empty,
+            Location = string.Empty
+        };
+
+    private void HandleSubmit()
+    {
+        MemoryClient.AddMemory(memory);
+        NavigationManager.NavigateTo("/");
+    }
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}

@@ -1,13 +1,38 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+<style>
+
+</style>
+
 <div class="page">
-    <div class="sidebar">
-  
+    <div class="sidebar text-center">
+        <div class="row">
+            <div class="col-sm-12">
+                <h5 class="text-success">Welcome to <br/> MartinMemories.com</h5>
+                <div>
+                    <button class="btn btn-success d-block mb-2" @onclick=AddNewData>Add Memories</button>
+                    <button class="btn btn-warning d-block" @onclick=SeeAllMemory>See Memories</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <main>
-      
         <article class="content px-4">
             @Body
         </article>
     </main>
 </div>
+
+@code
+{
+    public void AddNewData()
+    {
+        NavigationManager.NavigateTo("/edit-memories");
+    }
+
+    public void SeeAllMemory()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}

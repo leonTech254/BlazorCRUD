@@ -1,0 +1,62 @@
+﻿@page "/update-memories/{memoryId:int}"
+@using BlazorBasics.Models
+@using BlazorBasics.client
+@inject NavigationManager NavigationManager
+
+<PageTitle>new Memory</PageTitle>
+<h3>New Memories</h3>
+
+<EditForm Model="@memory" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label for="name">Name:</label>
+        <InputText id="name" @bind-Value="memory.Name" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label for="description">Description:</label>
+        <InputText id="description" @bind-Value="memory.Description" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label for="date">Date:</label>
+        <InputText id="date" @bind-Value="memory.Date" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label for="location">Location:</label>
+        <InputText id="location" @bind-Value="memory.Location" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-success">Save</button>
+    <button type="button" class="btn btn-danger" @onclick="GoBack">Cancel</button>
+</EditForm>
+
+@code {
+    private MemoriesModel memory;
+
+    [Parameter]
+    public int MemoryId { get; set; }
+
+    protected override void OnInitialized()
+    {
+        memory = MemoryClient.GetMemories().FirstOrDefault(m => m.Id == MemoryId);
+    }
+
+    private void HandleSubmit()
+    {
+        // Update the memory in the list
+        var index = Array.FindIndex(MemoryClient.GetMemories(), m => m.Id == MemoryId);
+        if (index != -1)
+        {
+            MemoryClient.GetMemories()[index] = memory;
+        }
+
+        // Navigate back to the index page
+        NavigationManager.NavigateTo("/");
+    }
+
+    private void GoBack()
+    {
+        // Navigate back to the index page
+        NavigationManager.NavigateTo("/");
+    }
+}
